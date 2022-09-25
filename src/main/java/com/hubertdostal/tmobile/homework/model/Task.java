@@ -14,7 +14,6 @@ public class Task {
      * Its value is automatically generated
      */
     @Id
-    // TODO check column and strategy type
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_")
     private Long id;

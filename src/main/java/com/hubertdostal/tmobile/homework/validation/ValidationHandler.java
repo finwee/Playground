@@ -1,5 +1,6 @@
 package com.hubertdostal.tmobile.homework.validation;
 
+import com.hubertdostal.tmobile.homework.exception.TaskNotFoundException;
 import com.hubertdostal.tmobile.homework.exception.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,8 +36,18 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {UserNotFoundException.class})
     protected ResponseEntity<Object> handleUserNotFoundException(RuntimeException ex, WebRequest request) {
         Map<String, String> errors = new HashMap<>();
-        String message = "User not found in database for ID " + ((UserNotFoundException)ex.getCause()).getIdNotFound();
+        String message = "User not found in database for ID " + ((UserNotFoundException)ex.getCause()).getNotFoundId();
         String fieldName =  ((UserNotFoundException)ex.getCause()).getFieldName();
+        errors.put(fieldName, message);
+        return handleExceptionInternal(ex, errors,
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(value = {TaskNotFoundException.class})
+    protected ResponseEntity<Object> handleTaskNotFoundException(RuntimeException ex, WebRequest request) {
+        Map<String, String> errors = new HashMap<>();
+        String message = "Task not found in database for ID " + ((TaskNotFoundException)ex.getCause()).getNotFoundId();
+        String fieldName =  "id";
         errors.put(fieldName, message);
         return handleExceptionInternal(ex, errors,
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

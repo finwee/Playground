@@ -2,18 +2,18 @@ package com.hubertdostal.tmobile.homework.exception;
 
 public class UserNotFoundException extends Exception {
 
-    private Long idNotFound;
+    private final Long notFoundId;
 
-    private String fieldName;
+    private final String fieldName;
 
-    public UserNotFoundException(Long idNotFound, String fieldName) {
-        super("User not found by field: " + fieldName + " value: " + idNotFound);
-        this.idNotFound = idNotFound;
+    public UserNotFoundException(Long notFoundId, String fieldName) {
+        super("User not found by field: " + fieldName + " value: " + notFoundId);
+        this.notFoundId = notFoundId;
         this.fieldName = fieldName;
     }
 
-    public Long getIdNotFound() {
-        return idNotFound;
+    public Long getNotFoundId() {
+        return notFoundId;
     }
 
     public String getFieldName() {

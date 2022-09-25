@@ -1,8 +1,11 @@
 package com.hubertdostal.tmobile.homework.model.dto;
 
+import com.hubertdostal.tmobile.homework.model.Task;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 public class TaskDTO {
     private Long id;
@@ -21,6 +24,14 @@ public class TaskDTO {
     private Long createdByUserId;
 
     public TaskDTO() {
+    }
+
+    public TaskDTO(Task task){
+        this.id = task.getId();
+        this.taskData = task.getTaskData();
+        this.userNote = task.getUserNote();
+        this.acquiredByUserId = task.getAcquiredByUser() != null ? task.getAcquiredByUser().getId() : null;
+        this.createdByUserId = task.getCreatedByUser() != null ? task.getAcquiredByUser().getId() : null;
     }
 
     public Long getId() {
@@ -63,8 +74,20 @@ public class TaskDTO {
         this.createdByUserId = createdByUserId;
     }
 
-    //TODO hash and uquals
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        TaskDTO taskDto = (TaskDTO) o;
+
+        return Objects.equals(getId(), taskDto.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 
     @Override
     public String toString() {
