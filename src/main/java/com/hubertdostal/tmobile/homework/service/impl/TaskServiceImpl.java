@@ -20,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Default implementation of {@link TaskService} using JPA repositories {@link TaskRepository} and {@link UserRepository}
+ *
+ * @author huber.dostal@gmail.com
+ */
 @Service
 public class TaskServiceImpl implements TaskService {
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
@@ -77,6 +82,8 @@ public class TaskServiceImpl implements TaskService {
                     task.setUserNote(taskDTO.getUserNote());
                     task.setAcquiredByUser(acquiredByUser.get());
                     taskRepository.save(task);
+
+                    logger.info("Task with ID: '{}' successfully updated at repository", taskDTO.getId());
                     return taskDTO;
                 }
         ).orElseThrow(() -> new TaskNotFoundException(taskDTO.getId()));
@@ -93,7 +100,7 @@ public class TaskServiceImpl implements TaskService {
 
         List<TaskDTO> result = new ArrayList<>();
 
-        taskRepository.findByAcquiredBy(acquiredBy).forEach(task ->
+        taskRepository.findByAcquiredByUser(acquiredBy).forEach(task ->
                     result.add(new TaskDTO(task))
         );
 

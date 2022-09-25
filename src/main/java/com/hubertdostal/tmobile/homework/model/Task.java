@@ -4,30 +4,46 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * POJO model entity class representing task
+ * Entity representing Task in the system
+ *
+ * @author hubert.dostal@gmail.com
  */
 @Entity(name = "Task")
 @Table(name = "TASKS", schema = "SCHEMA2")
 public class Task {
     /**
      * Unique identifier of instance of Task
-     * Its value is automatically generated
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID_")
     private Long id;
 
-    @Column(name = "USER_NOTE_", length=255)
+    /**
+     * User note for Task
+     */
+    @Column(name = "USER_NOTE_",
+            length=255,
+            nullable = false)
     private String userNote;
 
-    @Column(name = "TASK_DATA_")
+    /**
+     * Data for task (description, acceptance criteria etc)
+     */
+    @Column(name = "TASK_DATA_",
+            nullable = false)
     private String taskData;
 
+    /**
+     * Link to {@link User} that acquired Task
+     */
     @ManyToOne(optional = false)
     @JoinColumn(name="ACQUIRED_BY_", nullable=false)
     private User acquiredByUser;
 
+    /**
+     * Link to {@link User} that created Task
+     */
     @ManyToOne
     @JoinColumn(name="CREATED_BY_", nullable=false)
     private User createdByUser;
@@ -94,8 +110,9 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", acquiredByUser=" + acquiredByUser.getId() +
-                ", createdByUser=" + createdByUser.getId() +
+                ", userNote='" + userNote + '\'' +
+                ", acquiredByUser=" + acquiredByUser +
+                ", createdByUser=" + createdByUser +
                 '}';
     }
 }

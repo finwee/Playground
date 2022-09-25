@@ -7,25 +7,49 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+/**
+ * Data transfer object to carry values of {@link Task}.
+ *
+ * @author hubert.dostal@gmail.com
+ */
 public class TaskDTO {
+    /**
+     * Task id (may be null for new task)
+     */
     private Long id;
 
-    @NotEmpty(message = "${validation.task.userNoteEmpty}")
-    @Size(max = 255, message = "${validation.task.userNoteTooLong}")
+    /**
+     * User note (mandatory)
+     */
+    @NotEmpty(message = "{validation.task.userNote.empty}")
+    @Size(max = 255, message = "{validation.task.userNote.tooLong}")
     private String userNote;
 
-    @NotEmpty()
+    /**
+     * Task data (mandatory)
+     */
+    @NotEmpty(message = "{validation.task.taskDat.empty}")
     private String taskData;
 
-    @NotNull
+    /**
+     * Id of User who acquired task (mandatory)
+     */
+    @NotNull(message = "{validation.task.acquiredByUserId.null}")
     private Long acquiredByUserId;
 
-    @NotNull
+    /**
+     * Id of User who created task (mandatory)
+     */
+    @NotNull(message = "{validation.task.createdByUserId.null}")
     private Long createdByUserId;
 
     public TaskDTO() {
     }
 
+    /**
+     * Construct instace of {@link TaskDTO} from {@link Task}
+     * @param task task to be "copied" to DTO
+     */
     public TaskDTO(Task task){
         this.id = task.getId();
         this.taskData = task.getTaskData();
@@ -93,6 +117,7 @@ public class TaskDTO {
     public String toString() {
         return "TaskDTO{" +
                 "id=" + id +
+                ", userNote='" + userNote + '\'' +
                 ", acquiredByUserId=" + acquiredByUserId +
                 ", createdByUserId=" + createdByUserId +
                 '}';
