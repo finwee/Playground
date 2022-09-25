@@ -83,7 +83,7 @@ public class Task {
 
         Task task = (Task) o;
 
-        return Objects.equals(getId(), ((Task) o).getId());
+        return Objects.equals(getId(), task.getId());
     }
 
     @Override
